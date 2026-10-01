@@ -1,0 +1,17 @@
+{
+  "name": "Almacén del Taller",
+  "short_name": "Taller",
+  "description": "Stock de materiales, lista de compra y presupuestos de reparaciones y proyectos.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#eef0ee",
+  "theme_color": "#1d2321",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icons/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
