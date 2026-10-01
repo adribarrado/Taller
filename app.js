@@ -1,4 +1,5 @@
 
+const FN_IA=(window.TALLER_CONFIG&&window.TALLER_CONFIG.funcionIA)||"bright-api";
 const UNITS=["ud","m","cm","kg","g","L","ml","caja","rollo","bote","par","juego","m²"];
 const ESTADOS={idea:"Idea",pendiente:"Pendiente",curso:"En curso",terminado:"Terminado"};
 const ESTADO_PILL={idea:"steel",pendiente:"warn",curso:"ok",terminado:"steel"};
@@ -260,11 +261,11 @@ async function readCapture(file){if(!file)return;const out=$("#capOut");if(!out)
   try{capBlob=await compress(file,1600,.85)}catch(e){toast("No se pudo leer la imagen");return}
   const url=URL.createObjectURL(capBlob);$("#capDrop").hidden=true;
   out.innerHTML=`<div class="capres"><img src="${url}" alt="Captura"><div class="muted"><b>Leyendo la captura…</b><br>Suele tardar entre 3 y 10 segundos.</div></div>`;
-  let res;try{res=await sb.functions.invoke("leer-captura",{body:{image:await toB64(capBlob),mime:"image/jpeg"}})}catch(e){res={error:e}}
+  let res;try{res=await sb.functions.invoke(FN_IA,{body:{image:await toB64(capBlob),mime:"image/jpeg"}})}catch(e){res={error:e}}
   if(!$("#capOut"))return;
   if(res.error||!res.data?.ok){let msg="No se pudo leer la captura.";const st=res.error?.context?.status;
     try{const j=await res.error?.context?.json?.();if(j?.error)msg=j.error+(j.detalle?` (${j.detalle.slice(0,140)})`:"")}catch(e){}
-    if(st===404)msg="La lectura con IA aún no está activada: falta crear la función «leer-captura» en Supabase (paso 7 de la guía).";
+    if(st===404)msg="La lectura con IA aún no está activada: falta crear la función de IA en Supabase (paso 7 de la guía).";
     $("#capOut").innerHTML=`<div class="capres"><img src="${url}" alt=""><div><p class="err">${esc(msg)}</p><div class="row" style="margin-top:8px"><button class="btn" data-act="capRetry">Probar con otra</button></div></div></div>`;return}
   capData=fromAI(res.data.datos||{});const d=capData;
   $("#capOut").innerHTML=`<div class="capres"><img src="${url}" alt=""><div style="min-width:0;display:flex;flex-direction:column;gap:4px">
@@ -362,11 +363,11 @@ async function sendChat(text){text=String(text||"").trim();if(!text||chatBusy)re
   const hist=S.chat.filter(m=>!m.error).map(m=>({rol:m.rol,texto:m.propuesta?m.texto+"\n[Propuesta enviada: «"+m.propuesta.nombre+"»: "+m.propuesta.materiales.map(x=>x.nombre+" "+qf(x.cantidad)+" "+x.unidad).join(", ")+(m.creado?" — el usuario ya creó el trabajo":"")+"]":m.texto}));
   for(let k=hist.length-1;k>0;k--)if(hist[k].rol===hist[k-1].rol){hist[k-1].texto+="\n"+hist[k].texto;hist.splice(k,1)}
   const stock=[...S.mats].map(([id,m])=>({id,n:m.nombre,c:m.herramienta?1:num(m.cantidad),u:m.unidad||"ud",cat:m.categoria||"",...(m.herramienta?{h:1,p:m.prestamo?.persona||""}:{})}));
-  let res;try{res=await sb.functions.invoke("leer-captura",{body:{modo:"asesor",mensajes:hist,stock}})}catch(e){res={error:e}}
+  let res;try{res=await sb.functions.invoke(FN_IA,{body:{modo:"asesor",mensajes:hist,stock}})}catch(e){res={error:e}}
   chatBusy=false;
   if(res.error||!res.data?.ok){let msg="No he podido responder ahora mismo. Prueba otra vez en un momento.";const st=res.error?.context?.status;
     try{const j=await res.error?.context?.json?.();if(j?.error)msg=j.error+(j.detalle?` (${j.detalle.slice(0,140)})`:"")}catch(e){}
-    if(st===404)msg="El asesor aún no está activado: falta crear la función «leer-captura» en Supabase (paso 7 de la guía).";
+    if(st===404)msg="El asesor aún no está activado: falta crear la función de IA en Supabase (paso 7 de la guía).";
     S.chat.push({rol:"model",texto:msg,error:true})}
   else{const d=res.data.datos||{};S.chat.push({rol:"model",texto:d.respuesta||"",propuesta:d.hay_propuesta?normProp(d.propuesta):null})}
   S.chatScroll=true;saveChat();render()}

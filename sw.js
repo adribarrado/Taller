@@ -1,5 +1,5 @@
 // Service worker: guarda la app para que abra rápido y funcione sin conexión.
-const VERSION = "taller-v5";
+const VERSION = "taller-v6";
 const SHELL = ["./", "index.html", "style.css", "app.js", "config.js", "manifest.webmanifest",
   "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png",
   "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"];
