@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Almacén del Taller</title>
+<meta name="theme-color" content="#1d2321">
+<meta name="description" content="Stock, compras y presupuestos del taller">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Taller">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>:root{color-scheme:light;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="hwrap">
+    <div class="brand"><div class="tape" aria-hidden="true">T</div><h1>Almacén del Taller</h1><span class="sync" id="sync">Conectando…</span><button class="acct" id="acct" data-act="account" hidden></button></div>
+    <nav role="tablist" id="nav" hidden>
+      <button role="tab" data-tab="resumen" aria-selected="true">Resumen</button>
+      <button role="tab" data-tab="stock">Stock</button>
+      <button role="tab" data-tab="herramientas">Herramientas</button>
+      <button role="tab" data-tab="compras">Compras <span class="badge" id="bCompras" hidden></span></button>
+      <button role="tab" data-tab="proyectos">Trabajos</button>
+      <button role="tab" data-tab="asesor">Asesor</button>
+      <button role="tab" data-tab="historial">Historial</button>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <div class="panel empty"><strong>Cargando el almacén</strong></div>
+</main>
+<button class="fab" id="fab" data-act="fab" aria-label="Añadir" hidden>+</button>
+<div id="modalRoot"></div>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
